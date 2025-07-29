@@ -1,274 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AVI SOHAL | Portfolio</title>
+  <meta charset="UTF-8" />
+  <title>🧱 Brick Breaker</title>
   <style>
-      
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #222;
+      color: white;
+      text-align: center;
+      font-family: sans-serif;
+    }
+
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 3px solid white;
       background: #000;
-      padding: 20px;
-      color: #f1c40f;
-      font-style: italic;
     }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #111;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(241, 196, 15, 0.2);
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+
     h1 {
-      text-align: center;
-      color: #f1c40f;
-      font-size: 3rem;
-      margin-bottom: 10px;
-      font-weight: 700;
-      font-style: italic;
-      text-shadow: 2px 2px #7f6e13;
+      margin-top: 10px;
     }
-    h2 {
-      text-align: center;
-      color: #f39c12;
-      font-size: 2rem;
-      margin-bottom: 20px;
-      font-weight: 600;
-      font-style: italic;
-      text-shadow: 1px 1px #7d5d0e;
+
+    .controls {
+      margin: 10px;
     }
-    p, li {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 10px;
-    }
-    .profile-img {
-      display: block;
-      margin: 10px auto 20px;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #f1c40f;
-    }
-    .nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 20px 0;
-    }
-    .nav button {
+
+    .controls button {
       padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
       border: none;
-      border-radius: 25px;
-      background-color: #f39c12;
-      color: black;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-    .nav button:hover {
-      background-color: #d68910;
-    }
-    .content {
-      padding: 20px;
-      background: #1a1a1a;
-      border-radius: 10px;
-      min-height: 200px;
-    }
-    .project {
-      margin-bottom: 20px;
-    }
-    #clockCanvas {
-      display: block;
-      margin: 0 auto;
-      background: #000;
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(241, 196, 15, 0.2);
-    }
-    #calcDisplay {
-      width: 100%;
-      padding: 10px;
-      font-size: 1.3rem;
-      font-family: monospace;
-      text-align: right;
-      margin-bottom: 10px;
       border-radius: 5px;
-    }
-    .calc-buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    .calc-buttons button {
-      padding: 15px;
-      font-size: 1rem;
-      border: none;
-      background-color: #f39c12;
-      color: black;
-      border-radius: 8px;
       cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
     }
-    .calc-buttons button:hover {
-      background-color: #d68910;
+
+    button:hover {
+      opacity: 0.8;
     }
-	
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>AVI SOHAL</h1>
-    <img class="profile-img" src="C:\Users\hp\Desktop\avisohal.jpg">
-    <p style="text-align:center; margin-bottom: 20px;">BCA Student | Web Developer</p>
+  <h1>🧱 Brick Breaker</h1>
+  <canvas id="game" width="600" height="400"></canvas>
 
-    <div class="nav">
-      <button onclick="showSection('home')">Home</button>
-      <button onclick="showSection('about')">About</button>
-      <button onclick="showSection('skills')">Skills</button>
-      <button onclick="showSection('projects')">Projects</button>
-      <button onclick="showSection('contact')">Contact</button>
-    </div>
-
-    <div class="content" id="content">
-      <p>Welcome to my  portfolio</p>
-    </div>
+  <div class="controls">
+    <button onclick="startGame()">Start</button>
+    <button onclick="pauseGame()">Pause</button>
+    <button onclick="resumeGame()">Resume</button>
+    <button onclick="restartGame()">Restart</button>
+    <button onclick="exitGame()">Exit</button>
   </div>
 
   <script>
-    function showSection(section) {
-      const content = document.getElementById('content');
-      if (section === 'home') {
-        content.innerHTML = '<p>Welcome to my fantastic portfolio</p>';
-      } else if (section === 'about') {
-        content.innerHTML = '<p>I am AVI SOHAL, currently pursuing BCA from Kurukshetra University. I completed my 10th and 12th from Haryana Board.</p>';
-      } else if (section === 'skills') {
-        content.innerHTML = '<ul><li>HTML</li><li>CSS</li><li>Java</li><li>Git & GitHub</li></ul>';
-      } else if (section === 'projects') {
-        content.innerHTML = `
-          <div class="project">
-            <h2>Analog Clock</h2>
-            <canvas id="clockCanvas" width="200" height="200"></canvas>
-          </div>
-          <div class="project">
-            <h2>Calculator</h2>
-            <input type="text" id="calcDisplay" disabled />
-            <div class="calc-buttons" id="calcButtons"></div>
-        `;
-        drawAnalogClock();
-        createCalculator();
-      } else if (section === 'contact') {
-        content.innerHTML = '<p>Email: avisohal843@gmail.com<br>Phone: +91-8059445543</p>';
-      }
-    }
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
 
-    function drawAnalogClock() {
-      const canvas = document.getElementById("clockCanvas");
-      const ctx = canvas.getContext("2d");
-      const radius = canvas.height / 2;
-      ctx.translate(radius, radius);
+    const paddle = {
+      x: 250,
+      y: 370,
+      width: 100,
+      height: 15,
+      speed: 8,
+      dx: 0
+    };
 
-      function drawFace() {
-        ctx.beginPath();
-        ctx.arc(0, 0, radius * 0.95, 0, 2 * Math.PI);
-        ctx.fillStyle = "white";
-        ctx.fill();
+    const ball = {
+      x: 300,
+      y: 200,
+      radius: 10,
+      speed: 4,
+      dx: 4,
+      dy: -4
+    };
 
-        ctx.strokeStyle = "#333";
-        ctx.lineWidth = radius * 0.1;
-        ctx.stroke();
-      }
+    const brick = {
+      rowCount: 5,
+      columnCount: 7,
+      width: 75,
+      height: 20,
+      padding: 10,
+      offsetTop: 30,
+      offsetLeft: 35
+    };
 
-      function drawNumbers() {
-        ctx.font = radius * 0.15 + "px arial";
-        ctx.textBaseline = "middle";
-        ctx.textAlign = "center";
-        for (let num = 1; num <= 12; num++) {
-          let ang = num * Math.PI / 6;
-          ctx.rotate(ang);
-          ctx.translate(0, -radius * 0.85);
-          ctx.rotate(-ang);
-          ctx.fillText(num.toString(), 0, 0);
-          ctx.rotate(ang);
-          ctx.translate(0, radius * 0.85);
-          ctx.rotate(-ang);
+    let bricks = [];
+    let score = 0;
+    let animationId = null;
+    let isRunning = false;
+
+    function initBricks() {
+      bricks = [];
+      for (let r = 0; r < brick.rowCount; r++) {
+        bricks[r] = [];
+        for (let c = 0; c < brick.columnCount; c++) {
+          bricks[r][c] = { x: 0, y: 0, status: 1 };
         }
       }
-
-      function drawTime() {
-        const now = new Date();
-        const hour = now.getHours();
-        const minute = now.getMinutes();
-        const second = now.getSeconds();
-
-        const hourAngle = (hour % 12) * Math.PI / 6 + (minute * Math.PI / (6 * 60));
-        const minuteAngle = minute * Math.PI / 30 + (second * Math.PI / (30 * 60));
-        const secondAngle = second * Math.PI / 30;
-
-        drawHand(hourAngle, radius * 0.5, radius * 0.07);
-        drawHand(minuteAngle, radius * 0.8, radius * 0.07);
-        drawHand(secondAngle, radius * 0.9, radius * 0.02, 'red');
-      }
-
-      function drawHand(pos, length, width, color = '#333') {
-        ctx.beginPath();
-        ctx.lineWidth = width;
-        ctx.lineCap = "round";
-        ctx.strokeStyle = color;
-        ctx.moveTo(0, 0);
-        ctx.rotate(pos);
-        ctx.lineTo(0, -length);
-        ctx.stroke();
-        ctx.rotate(-pos);
-      }
-
-      function updateClock() {
-        ctx.clearRect(-radius, -radius, canvas.width, canvas.height);
-        drawFace();
-        drawNumbers();
-        drawTime();
-      }
-
-      setInterval(updateClock, 1000);
-      updateClock();
     }
 
-    function createCalculator() {
-      const display = document.getElementById('calcDisplay');
-      const buttonsDiv = document.getElementById('calcButtons');
-      buttonsDiv.innerHTML = '';
-      const keys = ['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+'];
-      let expression = '';
-      keys.forEach(key => {
-        const btn = document.createElement('button');
-        btn.textContent = key;
-        btn.onclick = () => {
-          if (key === '=') {
-            try {
-              expression = eval(expression).toString();
-            } catch {
-              expression = 'Error';
-            }
-          } else {
-            expression += key;
+    function drawPaddle() {
+      ctx.fillStyle = "#00ff99";
+      ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+    }
+
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "#ffcc00";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawBricks() {
+      for (let r = 0; r < brick.rowCount; r++) {
+        for (let c = 0; c < brick.columnCount; c++) {
+          if (bricks[r][c].status === 1) {
+            const bx = c * (brick.width + brick.padding) + brick.offsetLeft;
+            const by = r * (brick.height + brick.padding) + brick.offsetTop;
+            bricks[r][c].x = bx;
+            bricks[r][c].y = by;
+            ctx.fillStyle = "#00bfff";
+            ctx.fillRect(bx, by, brick.width, brick.height);
           }
-          display.value = expression;
-        };
-        buttonsDiv.appendChild(btn);
-      });
+        }
+      }
     }
 
-    showSection('home');
+    function drawScore() {
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "#fff";
+      ctx.fillText("Score: " + score, 10, 20);
+    }
+
+    function movePaddle() {
+      paddle.x += paddle.dx;
+      if (paddle.x < 0) paddle.x = 0;
+      if (paddle.x + paddle.width > canvas.width)
+        paddle.x = canvas.width - paddle.width;
+    }
+
+    function moveBall() {
+      ball.x += ball.dx;
+      ball.y += ball.dy;
+
+      // Wall collision
+      if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0)
+        ball.dx *= -1;
+      if (ball.y - ball.radius < 0) ball.dy *= -1;
+
+      // Paddle collision
+      if (
+        ball.x > paddle.x &&
+        ball.x < paddle.x + paddle.width &&
+        ball.y + ball.radius > paddle.y
+      ) {
+        ball.dy *= -1;
+      }
+
+      // Bottom
+      if (ball.y + ball.radius > canvas.height) {
+        alert("💥 Game Over! Final Score: " + score);
+        stopGame();
+      }
+
+      // Brick collision
+      for (let r = 0; r < brick.rowCount; r++) {
+        for (let c = 0; c < brick.columnCount; c++) {
+          const b = bricks[r][c];
+          if (b.status === 1) {
+            if (
+              ball.x > b.x &&
+              ball.x < b.x + brick.width &&
+              ball.y > b.y &&
+              ball.y < b.y + brick.height
+            ) {
+              ball.dy *= -1;
+              b.status = 0;
+              score += 10;
+
+              if (score === brick.rowCount * brick.columnCount * 10) {
+                alert("🎉 You Win! Score: " + score);
+                stopGame();
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBricks();
+      drawPaddle();
+      drawBall();
+      drawScore();
+      movePaddle();
+      moveBall();
+      animationId = requestAnimationFrame(draw);
+    }
+
+    function stopGame() {
+      cancelAnimationFrame(animationId);
+      isRunning = false;
+    }
+
+    function startGame() {
+      if (!isRunning) {
+        initBricks();
+        ball.x = 300;
+        ball.y = 200;
+        ball.dx = 4;
+        ball.dy = -4;
+        paddle.x = 250;
+        score = 0;
+        isRunning = true;
+        draw();
+      }
+    }
+
+    function pauseGame() {
+      if (isRunning) {
+        stopGame();
+      }
+    }
+
+    function resumeGame() {
+      if (!isRunning) {
+        isRunning = true;
+        draw();
+      }
+    }
+
+    function restartGame() {
+      stopGame();
+      startGame();
+    }
+
+    function exitGame() {
+      stopGame();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = "24px Arial";
+      ctx.fillStyle = "#fff";
+      ctx.fillText("👋 Game Exited", canvas.width / 2 - 80, canvas.height / 2);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") paddle.dx = paddle.speed;
+      else if (e.key === "ArrowLeft") paddle.dx = -paddle.speed;
+    });
+
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") paddle.dx = 0;
+    });
   </script>
 </body>
 </html>
